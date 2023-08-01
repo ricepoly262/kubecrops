@@ -4,12 +4,12 @@ onEvent('block.right_click', event => {
     let block = event.block;
     let blockState = block.blockState;
 
-    if(blockState.block instanceof CROPCLASS){
+    if (blockState.block instanceof CROPCLASS) {
         let ply = event.player;
 
-        if(!ply.isFake()){
-            if(blockState.block.isMaxAge(blockState)){
-                let loot = block.getDrops(ply,ply.getMainHandItem());
+        if (!ply.isFake()) {
+            if (blockState.block.isMaxAge(blockState)) {
+                let loot = block.getDrops(ply, ply.getMainHandItem());
                 let seedYeeted = false;
                 let plant = kubecrops_makeTemporaryPlant(block);
 
@@ -18,7 +18,7 @@ onEvent('block.right_click', event => {
                         loot[i].count--;
                         seedYeeted = true;
                     }
-                    if( (loot[i].id == Item.of('minecraft:wheat')) && kubecrops_isMagical(plant) ){
+                    if ((loot[i].id == Item.of('minecraft:wheat')) && kubecrops_isMagical(plant)) {
                         let type = '';
                         loot[i] = Item.of(kubecrops_getLoot(kubecrops_getMagical(plant).type));
                         loot[i].setCount(1);

@@ -18,12 +18,12 @@ kubecrops_load();
 // crop.pos.z
 
 
-function kubecrops_load(){ // gets all the crops
+function kubecrops_load() { // gets all the crops
     console.log("[KC] Reading crop file");
     kubecrops_crops = JsonIO.read(KUBECROPS_FILEPATH) || {};
-    if(kubecrops_crops == {}){
+    if (kubecrops_crops == {}) {
         console.log("[KC] ERROR: Crop file empty or failed to load!")
-    }else{
+    } else {
         console.log("[KC] Successfully read crop list")
     }
 
@@ -32,21 +32,21 @@ function kubecrops_load(){ // gets all the crops
 
 
 
-function kubecrops_isMagical(crop){ // checks if a given crop is a magical crop via location
+function kubecrops_isMagical(crop) { // checks if a given crop is a magical crop via location
     kubecrops_load();
     let cropkey = kubecrops_cropkey(crop)
     let rtn = false //idk some weird loop escape thing i don't understand
 
-    Object.keys(kubecrops_crops).forEach(key =>{
-        if(key == cropkey){
-            rtn = !(kubecrops_crops[cropkey].equals({})) 
+    Object.keys(kubecrops_crops).forEach(key => {
+        if (key == cropkey) {
+            rtn = !(kubecrops_crops[cropkey].equals({}))
         }
     })
 
     return rtn  //idk some weird loop escape thing i don't understand
 }
 
-function kubecrops_cropkey(crop){ // generates a crop key based on the crop's position
+function kubecrops_cropkey(crop) { // generates a crop key based on the crop's position
     let x = crop.pos.x;
     let y = crop.pos.y;
     let z = crop.pos.z;
@@ -55,7 +55,7 @@ function kubecrops_cropkey(crop){ // generates a crop key based on the crop's po
     return cropkey;
 }
 
-function kubecrops_makeTemporaryPlant(block){
+function kubecrops_makeTemporaryPlant(block) {
     let plant = {}
     plant.pos = {};
     plant.pos.x = block.pos.x;
@@ -65,26 +65,26 @@ function kubecrops_makeTemporaryPlant(block){
 }
 
 
-function kubecrops_getMagical(crop){ // gets the data of a magical crop
+function kubecrops_getMagical(crop) { // gets the data of a magical crop
     kubecrops_load();
-    if(kubecrops_isMagical(crop)){
+    if (kubecrops_isMagical(crop)) {
         return kubecrops_crops[kubecrops_cropkey(crop)]
     }
 
     return false;
 }
 
-function kubecrops_getLoot(type){ // checks if a given crop is a magical crop via location
+function kubecrops_getLoot(type) { // checks if a given crop is a magical crop via location
 
     return global.kubecrops.loot[type];
 
 }
 
 
-function kubecrops_remove(crop){ // saves a crop to the file 
+function kubecrops_remove(crop) { // saves a crop to the file 
     kubecrops_load();
 
-    if( kubecrops_isMagical(crop) ){ //Crop is a magical crop
+    if (kubecrops_isMagical(crop)) { //Crop is a magical crop
         let cropkey = kubecrops_cropkey(crop)
 
         kubecrops_crops[cropkey] = {};
@@ -92,11 +92,11 @@ function kubecrops_remove(crop){ // saves a crop to the file
         JsonIO.write(KUBECROPS_FILEPATH, kubecrops_crops);
 
         let isMagic = kubecrops_isMagical(crop) // check if it was removed
-        if(isMagic){
+        if (isMagic) {
             // it was not removed
             return false;
         }
-        
+
         return true; // it was removed
     }
     // it's not a magical crop
@@ -105,11 +105,11 @@ function kubecrops_remove(crop){ // saves a crop to the file
 
 }
 
-function kubecrops_save(crop){ // saves a crop to the file 
+function kubecrops_save(crop) { // saves a crop to the file 
     kubecrops_load();
 
-    if( !kubecrops_isMagical(crop) ){ // check if it is magic crop
-        
+    if (!kubecrops_isMagical(crop)) { // check if it is magic crop
+
         let cropkey = kubecrops_cropkey(crop);
 
         kubecrops_crops[cropkey] = {};
@@ -117,10 +117,10 @@ function kubecrops_save(crop){ // saves a crop to the file
         kubecrops_crops[cropkey].pos = crop.pos;
 
         JsonIO.write(KUBECROPS_FILEPATH, kubecrops_crops);
-        
+
         let isMagic = kubecrops_isMagical(crop) // check if it was saved 
 
-        if(isMagic){ 
+        if (isMagic) {
             // it was saved
             return true
         }
